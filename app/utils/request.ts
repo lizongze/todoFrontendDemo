@@ -27,8 +27,20 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     const res = response.data
-    // You can add custom business logic here
-    return res
+    
+    // Unified Response Handling
+    // Backend returns: { code: 200, message: "...", data: ... }
+    if (res.code === 200) {
+      return res.data // Unwrap data so API calls receive the actual payload directly
+    } else {
+      // Business Error
+      ElMessage({
+        message: res.message || 'Error',
+        type: 'error',
+        duration: 5 * 1000
+      })
+      return Promise.reject(new Error(res.message || 'Error'))
+    }
   },
   (error) => {
     console.error('Response Error:', error)
