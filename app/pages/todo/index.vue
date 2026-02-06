@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getTodos, addTodo, updateTodo, deleteTodo, type Todo } from '~/api/todo'
+import { getTodos, addTodo, updateTodo, deleteTodo, type Todo } from '@/api/todo'
 
 const todos = ref<Todo[]>([])
 const loading = ref(false)

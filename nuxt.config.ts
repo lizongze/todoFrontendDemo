@@ -1,5 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { fileURLToPath } from 'node:url'
+
 export default defineNuxtConfig({
+  alias: {
+    '@': fileURLToPath(new URL('./app', import.meta.url))
+  },
   future: {
     compatibilityVersion: 4,
   },

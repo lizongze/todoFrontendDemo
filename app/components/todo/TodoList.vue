@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { Delete } from '@element-plus/icons-vue'
-import type { Todo } from '~/api/todo'
+import type { Todo } from '@/api/todo'
 
 const props = defineProps<{
   todos: Todo[]
