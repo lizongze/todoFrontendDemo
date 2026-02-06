@@ -6,6 +6,7 @@ export interface Todo {
   completed: boolean
   description?: string
   plannedFinishTime?: string
+  reminders?: string[]
 }
 
 export const getTodos = () => {

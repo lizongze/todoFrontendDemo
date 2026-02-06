@@ -22,6 +22,19 @@
 
       <el-table-column label="Due Date" prop="plannedFinishTime" width="180" />
 
+      <el-table-column label="Reminders" min-width="150">
+        <template #default="scope">
+          <el-tag 
+            v-for="tag in sortedReminders(scope.row.reminders)" 
+            :key="tag" 
+            size="small" 
+            style="margin-right: 5px"
+          >
+            {{ tag }}
+          </el-tag>
+        </template>
+      </el-table-column>
+
       <el-table-column width="150" align="right" label="Actions">
         <template #default="scope">
           <el-button 
@@ -60,6 +73,24 @@
             style="width: 100%"
           />
         </el-form-item>
+        <el-form-item label="Reminders">
+          <el-select
+            v-model="editForm.reminders"
+            multiple
+            filterable
+            placeholder="Add reminders"
+            style="width: 100%"
+            @change="onEditRemindersChange"
+          >
+            <el-option label="每周一" value="每周一" />
+            <el-option label="每周二" value="每周二" />
+            <el-option label="每周三" value="每周三" />
+            <el-option label="每周四" value="每周四" />
+            <el-option label="每周五" value="每周五" />
+            <el-option label="每周六" value="每周六" />
+            <el-option label="每周日" value="每周日" />
+          </el-select>
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -97,7 +128,8 @@ const editForm = reactive<Todo>({
   title: '',
   completed: false,
   description: '',
-  plannedFinishTime: ''
+  plannedFinishTime: '',
+  reminders: []
 })
 
 function onToggle(todo: Todo) {
@@ -110,12 +142,39 @@ function onDelete(id: number) {
 
 function openEdit(todo: Todo) {
   Object.assign(editForm, todo)
+  // Sort initial value immediately
+  if (editForm.reminders) {
+    editForm.reminders.sort((a, b) => (weekOrder[a] || 99) - (weekOrder[b] || 99))
+  }
   editDialogVisible.value = true
 }
 
 function saveEdit() {
   emit('update', { ...editForm })
   editDialogVisible.value = false
+}
+
+const weekOrder: Record<string, number> = {
+  '每周一': 1,
+  '每周二': 2,
+  '每周三': 3,
+  '每周四': 4,
+  '每周五': 5,
+  '每周六': 6,
+  '每周日': 7
+}
+
+function sortedReminders(reminders: string[] | undefined) {
+  if (!reminders) return []
+  return [...reminders].sort((a, b) => {
+    const orderA = weekOrder[a] || 99
+    const orderB = weekOrder[b] || 99
+    return orderA - orderB
+  })
+}
+
+function onEditRemindersChange() {
+  editForm.reminders.sort((a, b) => (weekOrder[a] || 99) - (weekOrder[b] || 99))
 }
 </script>
 

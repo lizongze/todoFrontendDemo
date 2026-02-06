@@ -43,13 +43,14 @@ async function fetchTodos() {
   }
 }
 
-async function handleAdd(todoData: { title: string; description: string; plannedFinishTime: string }) {
+async function handleAdd(todoData: { title: string; description: string; plannedFinishTime: string; reminders: string[] }) {
   loading.value = true
   try {
     await addTodo({
       title: todoData.title,
       description: todoData.description,
       plannedFinishTime: todoData.plannedFinishTime,
+      reminders: todoData.reminders,
       completed: false
     })
     ElMessage.success('Todo added successfully')
@@ -137,6 +138,6 @@ onMounted(() => {
 
 .box-card {
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
 }
 </style>

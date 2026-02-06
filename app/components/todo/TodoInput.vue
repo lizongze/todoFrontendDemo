@@ -30,6 +30,26 @@
       </el-form-item>
 
       <el-form-item>
+        <el-select
+          v-model="newTodo.reminders"
+          multiple
+          filterable
+          placeholder="Reminders"
+          style="width: 200px"
+          :disabled="loading"
+          @change="onRemindersChange"
+        >
+          <el-option label="每周一" value="每周一" />
+          <el-option label="每周二" value="每周二" />
+          <el-option label="每周三" value="每周三" />
+          <el-option label="每周四" value="每周四" />
+          <el-option label="每周五" value="每周五" />
+          <el-option label="每周六" value="每周六" />
+          <el-option label="每周日" value="每周日" />
+        </el-select>
+      </el-form-item>
+
+      <el-form-item>
         <el-button type="primary" @click="onAdd" :loading="loading">Add</el-button>
       </el-form-item>
     </el-form>
@@ -44,14 +64,24 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'add', todo: { title: string; description: string; plannedFinishTime: string }): void
+  (e: 'add', todo: { title: string; description: string; plannedFinishTime: string; reminders: string[] }): void
 }>()
 
 const newTodo = reactive({
   title: '',
   description: '',
-  plannedFinishTime: ''
+  plannedFinishTime: '',
+  reminders: [] as string[]
 })
+
+const weekOrder: Record<string, number> = {
+  '每周一': 1, '每周二': 2, '每周三': 3, '每周四': 4,
+  '每周五': 5, '每周六': 6, '每周日': 7
+}
+
+function onRemindersChange() {
+  newTodo.reminders.sort((a, b) => (weekOrder[a] || 99) - (weekOrder[b] || 99))
+}
 
 function onAdd() {
   const title = newTodo.title.trim()
@@ -64,6 +94,7 @@ function reset() {
   newTodo.title = ''
   newTodo.description = ''
   newTodo.plannedFinishTime = ''
+  newTodo.reminders = []
 }
 
 defineExpose({
