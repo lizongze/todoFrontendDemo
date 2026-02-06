@@ -8,6 +8,11 @@ export default defineNuxtConfig({
   alias: {
     '@': fileURLToPath(new URL('./app', import.meta.url))
   },
+  nitro: {
+    output: {
+      publicDir: 'dist'
+    }
+  },
   future: {
     compatibilityVersion: 4,
   },
