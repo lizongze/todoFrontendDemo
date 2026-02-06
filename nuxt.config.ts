@@ -2,6 +2,9 @@
 import { fileURLToPath } from 'node:url'
 
 export default defineNuxtConfig({
+  css: [
+    'normalize.css/normalize.css'
+  ],
   alias: {
     '@': fileURLToPath(new URL('./app', import.meta.url))
   },
