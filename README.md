@@ -1,75 +1,53 @@
-# Nuxt Minimal Starter
+# Todo App 前端工程
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+基于 **Nuxt 4** 和 **Element Plus** 构建的单页应用 (SPA)。
 
-## Setup
+## 🛠 技术栈
+- **核心框架**: Nuxt 4 + Vue 3 (Composition API)
+- **UI 组件库**: Element Plus
+- **样式重置**: Normalize.css
+- **HTTP 请求**: Axios (封装于 `app/utils/request.ts`)
+- **语言**: TypeScript
 
-Make sure to install dependencies:
+## 📂 目录结构 (Nuxt 4 标准)
 
+本项目启用 `future: { compatibilityVersion: 4 }`，源码目录结构如下：
+
+```
+frontend/
+├── app/                  # 源码根目录
+│   ├── api/              # API 接口定义
+│   ├── components/       # UI 组件
+│   ├── pages/            # 页面路由
+│   ├── utils/            # 工具函数
+│   └── app.vue           # 应用入口
+├── nuxt.config.ts        # Nuxt 配置文件
+└── package.json
+```
+
+## 🚀 快速开始
+
+### 安装依赖
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
+### 启动开发服务器
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
+服务将在 `http://localhost:3001` 启动。
+*   默认访问 `/` 会重定向到 `/todo`。
+*   API 请求会通过代理转发到后端 `http://localhost:8080`。
 
-## Production
-
-Build the application for production:
-
+### 构建生产版本
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
+构建产物将位于 `.output/` 目录。
 
-Locally preview production build:
+## 📝 开发规范
 
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+1.  **自动导入**: 利用 Nuxt 强大的自动导入功能，组件无需手动 import 即可在模板中使用。
+2.  **路径别名**: 使用 `@` 指向 `frontend/app` 目录。
+3.  **样式**: 使用 Scoped CSS，避免全局样式污染。
