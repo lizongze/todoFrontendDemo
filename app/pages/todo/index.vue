@@ -8,6 +8,7 @@
       <el-card class="box-card">
         <!-- Removed ClientOnly to allow SSR and better error reporting -->
         <TodoInput 
+          ref="todoInputRef"
           :loading="loading" 
           @add="handleAdd" 
         />
@@ -16,6 +17,7 @@
           :todos="todos" 
           :loading="loading" 
           @toggle="handleToggle" 
+          @update="handleUpdate"
           @delete="handleDelete" 
         />
       </el-card>
@@ -30,6 +32,7 @@ import { getTodos, addTodo, updateTodo, deleteTodo, type Todo } from '@/api/todo
 
 const todos = ref<Todo[]>([])
 const loading = ref(false)
+const todoInputRef = ref()
 
 async function fetchTodos() {
   loading.value = true
@@ -40,17 +43,30 @@ async function fetchTodos() {
   }
 }
 
-async function handleAdd(title: string) {
+async function handleAdd(todoData: { title: string; description: string; plannedFinishTime: string }) {
   loading.value = true
   try {
     await addTodo({
-      title: title,
+      title: todoData.title,
+      description: todoData.description,
+      plannedFinishTime: todoData.plannedFinishTime,
       completed: false
     })
     ElMessage.success('Todo added successfully')
+    todoInputRef.value?.reset() // Clear input only on success
     await fetchTodos()
   } finally {
     loading.value = false
+  }
+}
+
+async function handleUpdate(todo: Todo) {
+  try {
+    await updateTodo(todo.id, todo)
+    ElMessage.success('Todo updated')
+    await fetchTodos()
+  } catch (error) {
+    // Error handled by interceptor
   }
 }
 

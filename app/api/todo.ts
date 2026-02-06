@@ -4,6 +4,8 @@ export interface Todo {
   id: number
   title: string
   completed: boolean
+  description?: string
+  plannedFinishTime?: string
 }
 
 export const getTodos = () => {
