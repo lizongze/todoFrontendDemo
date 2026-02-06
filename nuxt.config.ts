@@ -5,9 +5,10 @@ export default defineNuxtConfig({
   devServer: {
     port: 3001,
   },
-  routeRules: {
-    // target: "http://172.20.79.145:8080",
-    "/api/**": { proxy: "http://localhost:8080/api/**" },
-    // "/api/**": { proxy: "http://172.20.79.145:8080/api/**" },
+  $development: {
+    routeRules: {
+      "/api/**": { proxy: "http://localhost:8080/api/**" },
+      // "/api/**": { proxy: "http://172.20.79.145:8080/api/**" },
+    },
   },
 });
