@@ -7,18 +7,14 @@
     <el-main class="main-content">
       <el-card class="box-card">
         <!-- Removed ClientOnly to allow SSR and better error reporting -->
-        <TodoInput 
-          ref="todoInputRef"
-          :loading="loading" 
-          @add="handleAdd" 
-        />
+        <TodoInput ref="todoInputRef" :loading="loading" @add="handleAdd" />
 
-        <TodoList 
-          :todos="todos" 
-          :loading="loading" 
-          @toggle="handleToggle" 
+        <TodoList
+          :todos="todos"
+          :loading="loading"
+          @toggle="handleToggle"
           @update="handleUpdate"
-          @delete="handleDelete" 
+          @delete="handleDelete"
         />
       </el-card>
     </el-main>
@@ -43,14 +39,11 @@ async function fetchTodos() {
   }
 }
 
-async function handleAdd(todoData: { title: string; description: string; plannedFinishTime: string; reminders: string[] }) {
+async function handleAdd(todoData: any) {
   loading.value = true
   try {
     await addTodo({
-      title: todoData.title,
-      description: todoData.description,
-      plannedFinishTime: todoData.plannedFinishTime,
-      reminders: todoData.reminders,
+      ...todoData,
       completed: false
     })
     ElMessage.success('Todo added successfully')
@@ -91,7 +84,7 @@ async function handleDelete(id: number) {
         type: 'warning',
       }
     )
-    
+
     loading.value = true
     await deleteTodo(id)
     ElMessage.success('Todo deleted')

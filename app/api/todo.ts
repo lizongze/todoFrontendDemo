@@ -1,5 +1,11 @@
 import request from '@/utils/request'
 
+export interface TodoMark {
+  id: number
+  userId: number
+  title: string
+}
+
 export interface Todo {
   id: number
   title: string
@@ -7,6 +13,8 @@ export interface Todo {
   description?: string
   plannedFinishTime?: string
   reminders?: string[]
+  todoMarkIds?: number[]
+  todoMarks?: TodoMark[]
 }
 
 export const getTodos = () => {
@@ -16,7 +24,7 @@ export const getTodos = () => {
   })
 }
 
-export const addTodo = (data: { title: string; completed: boolean }) => {
+export const addTodo = (data: Partial<Todo>) => {
   return request<any, Todo>({
     url: '/todos',
     method: 'post',
@@ -36,5 +44,22 @@ export const deleteTodo = (id: number) => {
   return request<any, void>({
     url: `/todos/${id}`,
     method: 'delete'
+  })
+}
+
+// --- Mark APIs ---
+
+export const getMarks = () => {
+  return request<any, TodoMark[]>({
+    url: '/marks',
+    method: 'get'
+  })
+}
+
+export const createMark = (title: string) => {
+  return request<any, TodoMark>({
+    url: '/marks',
+    method: 'post',
+    data: { title }
   })
 }
