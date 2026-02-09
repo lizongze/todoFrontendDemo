@@ -192,7 +192,8 @@ onMounted(async () => {
 })
 
 function onToggle(todo: Todo) {
-  emit('toggle', todo)
+  const { id, completed } = todo;
+  emit('toggle',  { id, completed } as any)
 }
 
 function onDelete(id: number) {
